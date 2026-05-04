@@ -2,7 +2,7 @@
 // Base URLs and credentials used across all API calls
 const API_BASE = "https://api.openweathermap.org/data/2.5";
 const ICON_BASE = "https://openweathermap.org/img/wn";
-const API_KEY = "e621d595e251b9f0eac6407a03743b6f";
+
 const DEFAULT_CITY = "Boston"; // Fallback city if none is provided
 
 // ── DOM References ──
