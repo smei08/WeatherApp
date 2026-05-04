@@ -105,8 +105,9 @@ async function fetchWeather(city = DEFAULT_CITY) {
 // and renders a horizontal row of cards for entries that fall on today's date
 async function fetchForecast(city = DEFAULT_CITY) {
   try {
+    // NEW - use your serverless function
     const res = await fetch(
-      `${API_BASE}/forecast?q=${city}&units=imperial&appid=${API_KEY}`,
+      `/.netlify/functions/weather?city=${city}&type=forecast`,
     );
     if (!res.ok) return; // Silently bail on non-200 responses
 
