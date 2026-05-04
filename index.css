@@ -1,0 +1,172 @@
+/* ── Reset & Base ──
+   Strips all default browser margins/padding and enforces
+   border-box sizing so padding never blows out element widths */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent any horizontal scrollbar from appearing at the page level */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  color: #50624b;
+  min-height: 100vh;
+  overflow: hidden; /* Clips the blurred background so it never causes scroll */
+}
+
+/* ── Background ──
+   A fixed pseudo-element sits behind everything (z-index: -1) and renders
+   overlapping radial gradients that are heavily blurred to create a soft
+   colorful glow effect across the entire viewport */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0; /* Shorthand for top/right/bottom/left: 0 */
+  z-index: -1;
+  background-color: #5b626a; /* Base color shows through where gradients are transparent */
+  background-image:
+    radial-gradient(at 62% 11%, rgba(138, 166, 47, 0.8) 0px, transparent 40%),
+    radial-gradient(at 14% 59%, rgba(254, 164, 100, 0.8) 0px, transparent 36%),
+    radial-gradient(at 5% 61%, rgba(0, 196, 215, 0.8) 0px, transparent 44%),
+    radial-gradient(at 52% 29%, rgba(195, 47, 47, 0.8) 0px, transparent 32%),
+    radial-gradient(at 65% 92%, rgba(152, 174, 237, 0.8) 0px, transparent 36%);
+  filter: blur(100px); /* High blur merges the gradients into a smooth wash */
+}
+
+/* ── Page Layout ──
+   Centers the weather card both horizontally and vertically in the viewport.
+   position: relative + z-index: 1 ensure the content sits above ::before */
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Flex row that holds the current weather card and the hourly forecast panel side by side */
+.weather-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch; /* Makes both children the same height */
+  width: 100%;
+  max-width: 90%;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* ── Current Weather Card ──
+   Fixed-width card with a warm peach gradient background.
+   align-self: flex-start prevents it from stretching to match the hourly panel's height */
+.current-container {
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 250px;
+  padding: 20px;
+  color: #50624b;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(-135deg, #ffecd2 0%, #fcb69f 100%) border-box;
+}
+
+/* Extra bottom padding pushes the temperature section toward the bottom of the header area */
+.header {
+  padding-bottom: 45px;
+}
+
+/* Cursive date font for a handwritten feel */
+.date {
+  font-family: "Snell Roundhand", cursive;
+  padding-bottom: 15px;
+}
+
+.temp-section {
+  font-weight: bold;
+}
+
+/* Negative left margin compensates for built-in whitespace in the weather icon PNG */
+.temp-section > img {
+  display: block;
+  width: 70px;
+  margin-left: -18px;
+}
+
+/* ── Hourly Forecast Panel ──
+   Scrollable horizontal container displayed as a column so the high/low
+   block stacks above the row of hourly cards */
+.hourly-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-shrink: 0;
+  align-self: stretch; /* Stretches to match .weather-container's cross-axis height */
+  width: fit-content;
+  max-width: 50%;
+  padding: 30px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+  overflow-x: auto; /* Allows horizontal scrolling when cards overflow */
+  scrollbar-width: thin; /* Firefox: slim scrollbar */
+  scrollbar-color: #fcb69f transparent; /* Firefox: peach thumb, invisible track */
+}
+
+/* Horizontal row of individual hour cards */
+.hours-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* Adds a small invisible block after the last card so it doesn't get visually clipped
+   against the panel's right edge when scrolling */
+.hours-info-container::after {
+  content: "";
+  display: block;
+  min-width: 5px;
+}
+
+/* Individual hour card: column layout with centered content and a peach border */
+.hours-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 0.8px solid #fcb69f;
+  border-radius: 10px;
+}
+
+/* Highlight the card on hover with a filled peach background */
+.hours-info:hover {
+  background-color: #fcb69f;
+  color: #ffffff;
+}
+
+/* Extra right margin on the last card so it doesn't sit flush against the panel edge */
+.hours-info:last-child {
+  margin-right: 15px;
+}
+
+/* Fixed dimensions keep all weather icons the same size regardless of source image */
+.hourly-icon {
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+
+/* High/low temperature display inside the hourly panel */
+.temp-container {
+  font-weight: bold;
+  font-size: 20px;
+}
