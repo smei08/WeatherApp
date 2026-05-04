@@ -65,9 +65,7 @@ const iconURL = (code) => `${ICON_BASE}/${code}@2x.png`;
 // condition, icon, temperature, city name, and today's high/low
 async function fetchWeather(city = DEFAULT_CITY) {
   try {
-    const res = await fetch(
-      `/.netlify/functions/weather?city=${city}&type=forecast`,
-    );
+    const res = await fetch(`/.netlify/functions/weather?city=${city}`);
     if (!res.ok) return; // Silently bail on non-200 responses
 
     const data = await res.json();
